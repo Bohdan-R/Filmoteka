@@ -12,16 +12,15 @@ import './js/close-modal';
 // мои ссылки для корректной работы впихнутого кода
 const inputRef = refs.inputRef;
 const galleryRef = refs.galleryRef;
-const modalRef = refs.modalRef;
-const backdropRef = document.querySelector('#js-backdrop');
 
+const backdropRef = document.querySelector('#js-backdrop');
 
 // берут значение после фетча
 const resultData = {
   currentPage: 1,
   totalPages: null,
-    totalResults: null,
-    error: false,
+  totalResults: null,
+  error: false,
 };
 
 //массив жанров от АПИ
@@ -52,8 +51,30 @@ let moviesArr;
 //заходит обьект для рендера модалки
 let currentFilmObj = {};
 
+console.log(refs.paginBtnsRef);
+
+/* function paginationBtn() {
+  refs.paginBtnsRef;
+} */
+
+refs.paginBtnWrapper.addEventListener('click', event => {
+  if (event.target.nodeName === 'BUTTON') {
+    const pageToRender = event.target.textContent;
+    apiFetch.page = Number(pageToRender);
+    console.log(pageToRender);
+
+    if (apiFetch.searchQuerry) {
+      handleBtnClickSearchQuery();
+    } else {
+      galleryRef.innerHTML = '';
+      startPopularFilms();
+    }
+  }
+});
+
+// ============================== старт приложения ============================
+
 startPopularFilms();
-//inputRef.addEventListener('click', dishargeCurPage);
 inputRef.addEventListener('input', _.debounce(handleSearchQuery, 1000));
 
 refs.prevBtnRef.addEventListener('click', handleBtnPrevClick);
@@ -63,16 +84,13 @@ galleryRef.addEventListener('click', modalMatchesFounder);
 
 // ============= функции отвечает за стартовую загрузку популярных фильмов =============================
 
-
 function dishargeCurPage() {
   apiFetch.resetPage();
 }
 
-
-
 function startPopularFilms() {
-    resultData.error = false;
-    refs.galleryRef.classList.remove('movie__list--error')
+  resultData.error = false;
+  refs.galleryRef.classList.remove('movie__list--error');
   apiFetch
     .fetchPopularMovieGallery()
     .then(data => {
@@ -164,8 +182,9 @@ function handleBtnNextClick() {
 
 //===============================функции отвечающие за отрисовку запроса
 function handleSearchQuery(event) {
-    resultData.error = false;
-    refs.galleryRef.classList.remove('movie__list--error')
+  dishargeCurPage();
+  resultData.error = false;
+  refs.galleryRef.classList.remove('movie__list--error');
   //event.preventDefault();
   apiFetch.searchQuerry = '';
   apiFetch.searchQuerry = inputRef.value;
@@ -218,8 +237,8 @@ function handleBtnClickSearchQuery() {
 
 // рисует разметку когда нету результатов запроса
 function failureMarkup(placeToInsert) {
-    resultData.error = true;
-    refs.galleryRef.classList.add('movie__list--error');
+  resultData.error = true;
+  refs.galleryRef.classList.add('movie__list--error');
   const failureMarkup = `<div class="error">
   <div class="error-img"><img src="https://i.ibb.co/4WvT00q/caterror.jpg" alt="" width="300"></div>
 
