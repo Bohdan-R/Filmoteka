@@ -33,7 +33,7 @@
   background-color: #FFFFFF;
 
   @include for-size(mobile) {
-    top: 50%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
     width: 280px;
@@ -47,6 +47,7 @@
   }
 
   @include for-size(tablet) {
+    top: 50%;
     display: flex;
     width: 618px;
     min-height: 456px;
