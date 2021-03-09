@@ -5,6 +5,7 @@ import apiFetch from './js/apiService.js';
 import popularFilmsGalerryTpl from './templates/filmgallery.hbs';
 import modalTpl from './templates/modal.hbs';
 import './js/close-modal';
+import './js/localStorage';
 
 //============== вставка Dr.Frame======================
 //=====================================================
